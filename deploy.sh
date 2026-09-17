@@ -154,7 +154,7 @@ current_policy="$("${aws_cli[@]}" lambda get-policy \
   --function-name "$SERVICE_NAME" \
   --query Policy \
   --output text 2>/dev/null || true)"
-if ! printf '%s' "$current_policy" | rg -q "$permission_statement_id"; then
+if [[ "$current_policy" != *"$permission_statement_id"* ]]; then
   "${aws_cli[@]}" lambda add-permission \
     --function-name "$SERVICE_NAME" \
     --statement-id "$permission_statement_id" \
