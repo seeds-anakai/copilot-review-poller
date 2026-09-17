@@ -2,8 +2,6 @@
 
 EventBridgeから5分ごとに起動し、対象リポジトリのopenなPull Requestに対して、最新コミットへのGitHub Copilotレビューがなければレビューを依頼するLambdaです。
 
-既存の [`seeds-anakai/copilot-assigner`](https://github.com/seeds-anakai/copilot-assigner) は変更せず、このLambdaを対象リポジトリ専用の別サービスとして運用します。
-
 ## 判定
 
 - draft Pull Requestは対象外
@@ -18,8 +16,6 @@ EventBridgeから5分ごとに起動し、対象リポジトリのopenなPull Re
 GH_TOKEN=<Pull Request write権限を持つGitHub Token>
 TARGET_REPOSITORY=<owner>/<repository>
 ```
-
-`GH_TOKEN`はリポジトリへコミットしません。
 
 ## デプロイ
 
