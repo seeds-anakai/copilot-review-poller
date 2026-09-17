@@ -4,6 +4,7 @@ import subprocess
 
 
 COPILOT_REVIEWER = 'copilot-pull-request-reviewer[bot]'
+DEPENDABOT_USER = 'dependabot[bot]'
 TARGET_REPOSITORY = os.environ['TARGET_REPOSITORY']
 
 
@@ -80,6 +81,9 @@ def process_pull_request(pull_request: dict) -> str:
     if pull_request.get('draft'):
         return 'draft'
 
+    if pull_request.get('user', {}).get('login') == DEPENDABOT_USER:
+        return 'dependabot'
+
     head_sha = pull_request['head']['sha']
     requested_reviewers = get_requested_reviewers(number)
     if any(
@@ -109,6 +113,7 @@ def handler(event, context):
     counts = {
         'scanned': len(pull_requests),
         'draft': 0,
+        'dependabot': 0,
         'requested': 0,
         'reviewed': 0,
         'changed': 0,

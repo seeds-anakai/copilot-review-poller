@@ -7,6 +7,7 @@ EventBridgeから5分ごとに起動し、対象リポジトリのopenなPull Re
 ## 判定
 
 - draft Pull Requestは対象外
+- Dependabot (`dependabot[bot]`) が作成したPull Requestは対象外
 - Copilotが依頼中なら再依頼しない
 - `copilot-pull-request-reviewer[bot]` のレビューが最新の `head.sha` に対して存在すれば再依頼しない
 - 古いコミットへのレビューしかない場合は再依頼する
