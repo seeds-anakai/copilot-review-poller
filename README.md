@@ -17,15 +17,22 @@ GH_TOKEN=<Pull Request write権限を持つGitHub Token>
 TARGET_REPOSITORY=<owner>/<repository>
 ```
 
-## デプロイ
+## 手順
 
-1. DockerイメージをARM64向けにビルドしてECRへpushする
-2. Lambdaをコンテナイメージから作成する
-3. `GH_TOKEN`と`TARGET_REPOSITORY`を設定する
-4. EventBridgeのScheduled Ruleに `rate(5 minutes)` を設定する
-5. EventBridgeからLambdaを呼び出す権限をLambdaへ追加する
+1. プルリクエストの書き込み権限を持つパーソナルアクセストークンを発行する。
 
-Lambdaのタイムアウトは、Pull Request数に応じて30〜60秒を目安に設定します。
+2. `GH_TOKEN`と対象リポジトリを環境変数に設定し、`deploy.sh`を実行する。
+
+   ```bash
+   export GH_TOKEN
+   export TARGET_REPOSITORY=owner/repository
+   ./deploy.sh
+   ```
+
+   - AWS CLIのprofileは`default`、リージョンは`ap-northeast-1`を使用します。必要な場合は`AWS_PROFILE`と`AWS_REGION`で変更できます。
+   - `deploy.sh`はDockerイメージのbuildとECRへのpush、IAMロール、Lambda、CloudWatch Logsのロググループ、5分間隔のEventBridge Scheduled Rule、Lambdaの呼び出し権限を作成または更新します。
+
+   - Lambdaのタイムアウトは`30秒`に設定します。
 
 ## 必要なGitHub権限
 
