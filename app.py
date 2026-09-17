@@ -4,6 +4,7 @@ import subprocess
 
 
 COPILOT_REVIEWER = 'copilot-pull-request-reviewer[bot]'
+COPILOT_REQUESTED_REVIEWER_LOGINS = {'Copilot', COPILOT_REVIEWER}
 DEPENDABOT_USER = 'dependabot[bot]'
 TARGET_REPOSITORY = os.environ['TARGET_REPOSITORY']
 
@@ -87,7 +88,7 @@ def process_pull_request(pull_request: dict) -> str:
     head_sha = pull_request['head']['sha']
     requested_reviewers = get_requested_reviewers(number)
     if any(
-        reviewer.get('login') == COPILOT_REVIEWER
+        reviewer.get('login') in COPILOT_REQUESTED_REVIEWER_LOGINS
         for reviewer in requested_reviewers
     ):
         return 'requested'
